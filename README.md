@@ -103,29 +103,28 @@ This gating mechanism determines how much strategic adjustment should be injecte
 
   
 
-The same vector \( z \) is separately transformed via another two-layer feedforward network into a refined strategy representation \( \hat{h} \):
+The same vector $\( z \)$ is separately transformed via another two-layer feedforward network into a refined strategy representation \( \hat{h} \):
 
   
-
+```markdown
 \[
 
 \hat{h} = P(z)
 
 \]
-
+```
   
 
 The final hidden state used for response generation is then computed via a **gated fusion** of the strategy-aware and original decoder outputs:
 
   
-
+```markdown
 \[
 
 h' = g \odot \hat{h} + (1 - g) \odot h
 
 \]
-
-  
+```
   
 
 ---
