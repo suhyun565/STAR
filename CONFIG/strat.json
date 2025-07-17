@@ -1,7 +1,7 @@
 {
   "model_name": "strat_blenderbot_small",
   "pretrained_model_path": "./Blenderbot_small-90M",
-  "checkpoint_path": "./STAR/Blenderbot_small-90M/pytorch_model.pth",
+  "checkpoint_path": null,
   "custom_config_path": null,
   "gradient_checkpointing": false,
 

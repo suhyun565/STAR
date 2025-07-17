@@ -33,34 +33,26 @@ from difflib import get_close_matches
 import json
 import random
 
-# 데이터 읽기: 각 줄을 JSON 객체로 변환
-with open("/home/station_04/Desktop/Emotional-Support-Conversation/codes_zcj/_reformat/mi/train.txt", 'r', encoding='utf-8') as f:
-    train_data = [json.loads(line.strip()) for line in f if line.strip()]  # 공백 제거 후 JSON 로드
+with open("./_reformat/mi/train.txt", 'r', encoding='utf-8') as f:
+    train_data = [json.loads(line.strip()) for line in f if line.strip()] 
 
 def get_example_dict(train_data):
-    """
-    주어진 데이터에서 각 전략에 따른 예제를 분류하여 반환하는 함수.
-    """
-    # 정의된 전략들
+
     strategies = [
         'GIV', 'QUEST', 'SEEK', 'AF', 'PWP', 'PWOP',
         'EMPH', 'CON', 'SR', 'CR'
     ]
     
-    # 전략별 예제를 저장할 딕셔너리 초기화
     st_to_example = {strategy: [] for strategy in strategies}
     
     for conv in train_data:
-        # 필수 키 존재 여부 확인
         if "dialog" not in conv or "strategy" not in conv or "target" not in conv:
             continue
         
-        # 데이터 추출
         dialog = conv.get("dialog", [])
         strategy = conv.get("strategy", "").strip()
         target = conv.get("target", "").strip()
         
-        # 유효한 전략인지 확인
         if strategy not in strategies:
             continue
         
@@ -69,13 +61,12 @@ def get_example_dict(train_data):
         seeker_turn = 0
         supporter_turn = 0
         
-        # 대화 순회
         for turn, content in enumerate(dialog):
-            if turn % 2 == 0:  # 짝수 턴: seeker
+            if turn % 2 == 0:  
                 seekers[seeker_turn] = content.strip()
                 seeker_turn += 1
-            else:  # 홀수 턴: supporter
-                if seeker_turn > 0:  # 이전에 seeker 발화가 있어야 함
+            else: 
+                if seeker_turn > 0:
                     supporters[supporter_turn] = {
                         "content": content.strip(),
                         "strategy": strategy,
@@ -92,21 +83,15 @@ def get_example_dict(train_data):
 
 
 def load_few_shot_exemplar(st_to_example, strategy=None):
-    """
-    주어진 전략의 몇 가지 예제를 샘플링하여 반환.
-    """
-    # 전략별 예제 가져오기
     if strategy not in st_to_example:
-        return ""  # 유효하지 않은 전략이면 빈 문자열 반환
+        return ""  
 
     turns = st_to_example.get(strategy, [])
     if not turns:
-        return ""  # 예제가 없으면 빈 문자열 반환
+        return ""  
 
-    # 최대 20개의 샘플을 랜덤 선택
     turns = random.sample(turns, min(len(turns), 20))
-    
-    # 샘플을 대화 형식으로 병합
+
     few_shot_dialogue = []
     for t in turns:
         few_shot_dialogue.append(f"seeker: {t['seeker']}")
@@ -115,7 +100,6 @@ def load_few_shot_exemplar(st_to_example, strategy=None):
     return "\n".join(few_shot_dialogue)
 
 
-# 데이터에서 전략별 예제 생성
 st_to_example = get_example_dict(train_data)
 
 api_key = os.getenv('OPENAI_API_KEY')
@@ -125,8 +109,6 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s -   %(message
                     datefmt='%m/%d/%Y %H:%M:%S',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-# Dictionary containing strategies and their definitions
 
 strategy_dict = {
     "[GIV]": 'GIV',
@@ -157,7 +139,7 @@ def classify_strategy_with_gpt(prompt):
     )
     return response.choices[0].message.content.strip()
 
-# GPT 모델을 사용하여 응답 생성
+# GPT
 def generate_response_with_gpt4(strategy, prompt, example_context=None):
     gpt_prompt_few_shot = f"""
     1. Respond to the prompt using the strategy ‘{strategy}’
@@ -187,18 +169,10 @@ def cut_seq_to_eos(sentence, eos, remove_id=None):
     return sent
 
 def transform_string(input_str: str) -> str:
-    """
-    주어진 문자열에서 모든 공백을 제거하고,
-    대문자로 변환한 뒤,
-    [ ... ] 형태로 감싸서 반환합니다.
-    """
-    # 1) 모든 공백 제거
     without_spaces = input_str.replace(" ", "")
     
-    # 2) 대문자로 변환
     upper_str = without_spaces.upper()
-    
-    # 3) 대괄호로 감싸기
+
     if len(input_str) >= 2 and input_str.startswith('[') and input_str.endswith(']'):
         pass
     else:
@@ -279,7 +253,7 @@ config['st_config']['strategy_categories'] = sp_tokens
 Model = models[config['model_name']]
 device = "cuda"
 
-if config['model_name'] in ['gate_blenderbot_small', 'gate_blenderbot_small_gate_loss']:
+if config['model_name'] in ['star_blenderbot_small']:
     model = Model.from_pretrained(config['pretrained_model_path'], toker, **config)
 else:
     model = Model.from_pretrained(config['pretrained_model_path'], toker)
