@@ -57,70 +57,32 @@ Given a dialogue context, the decoder produces hidden states $\( h \in \mathbb{R
 
 These signals are processed as follows:
 
-  
 
 ---
-
-  
 
 ### 1. Strategy-Aware Representation Adjustment (SARA)
 
-  
-
 SARA computes a global contextual summary using shared attention pooling:
 
-  
+$z = \text{Pooling}(h)$
 
-\[
+The pooled vector $z$ is passed through a two-layer feedforward network (with ReLU and Sigmoid activations) to compute a **gating value** $g \in (0, 1)$:
 
-z = \text{Pooling}(h)
-
-\]
-
-  
-
-The pooled vector $\( z \)$ is passed through a two-layer feedforward network (with ReLU and Sigmoid activations) to compute a **gating value** $\( g \in (0, 1) \)$:
-
-  
-
-\[
-
-g = \sigma(f(z))
-
-\]
-
-  
+$g = \sigma(f(z))$
 
 This gating mechanism determines how much strategic adjustment should be injected into the final representation.
 
-  
-
 ---
-
-  
 
 ### 2. Strategy Refinement (SR)
 
-  
-
-The same vector $\( z \)$ is separately transformed via another two-layer feedforward network into a refined strategy representation $\( \hat{h} \)$:
-
-  
-```markdown
+The same vector $z$ is separately transformed via another two-layer feedforward network into a refined strategy representation $\hat{h}$:
 
 $\hat{h} = P(z)$
 
-```
-  
+The final hidden state used for response generation is computed via a **gated fusion** of the strategy-aware and original decoder outputs:
 
-The final hidden state used for response generation is then computed via a **gated fusion** of the strategy-aware and original decoder outputs:
-
-  
-```
-$$(h' = g \odot \hat{h} + (1 - g) \odot h)$$
-
-```
-  
+$h' = g \odot \hat{h} + (1 - g) \odot h$
 
 ---
 
