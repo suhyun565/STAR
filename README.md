@@ -51,7 +51,7 @@ STAR introduces two core components:  
 
 ### Overall Architecture
 
-  
+![STAR Architecture](assets/star-figure.001.jpeg)
 
 Given a dialogue context, the decoder produces hidden states $\( h \in \mathbb{R}^d \)$, and a predicted strategy token $\( s \in \mathbb{N} \)$ is appended to guide generation.  
 
