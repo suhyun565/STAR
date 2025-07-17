@@ -1,0 +1,22 @@
+python infer.py \
+    --config_name star \
+    --inputter_name strat \
+    --data_name esconv \
+    --knowledge_name none \
+    --add_nlg_eval \
+    --add_mi_analysis \
+    --seed 13 \
+    --load_checkpoint path-to-checkpoint \
+    --fp16 false \
+    --max_input_length 160 \
+    --max_decoder_input_length 40 \
+    --max_length 40 \
+    --min_length 15 \
+    --infer_batch_size 1 \
+    --infer_input_file ./_reformat/ \
+    --temperature 0.7 \
+    --top_k 30 \
+    --top_p 0.3 \
+    --num_beams 1 \
+    --repetition_penalty 1.03 \
+    --no_repeat_ngram_size 3

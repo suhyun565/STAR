@@ -1,0 +1,94 @@
+{
+  "model_name": "star_blenderbot_small",
+  "pretrained_model_path": "facebook/blenderbot_small-90M",
+  "checkpoint_path": "./Blenderbot_small-90M/pytorch_model.pth",
+  "custom_config_path": null,
+  "gradient_checkpointing": false,
+  "memo": "layer norm only last one, all parameter trainable, loss weight log scale applied",
+  "expanded_vocab": {
+    "esconv": [
+      "[Question]",
+      "[Restatement or Paraphrasing]",
+      "[Reflection of feelings]",
+      "[Self-disclosure]",
+      "[Affirmation and Reassurance]",
+      "[Providing Suggestions]",
+      "[Information]",
+      "[Others]"
+    ],
+    "mi": [
+      "[GIV]",
+      "[QUEST]",
+      "[SEEK]",
+      "[AF]",
+      "[PWP]",
+      "[PWOP]",
+      "[EMPH]",
+      "[CON]",
+      "[SR]",
+      "[CR]"
+    ],
+    "basic": [
+      "[xReact]",
+      "[xIntent]",
+      "[xWant]",
+      "[xEffect]",
+      "[xNeed]"
+    ],
+    "heal": [
+      "[exp]",
+      "[resp]",
+      "[str]",
+      "[aff]"
+    ],
+    "bm25": [
+      "[knowledge]"
+    ],
+    "oracle": [
+      "[xReact]",
+      "[xIntent]",
+      "[xWant]",
+      "[xEffect]",
+      "[xNeed]",
+      "[knowledge]"
+    ],
+    "sbert": [
+      "[xReact]",
+      "[xIntent]",
+      "[xWant]",
+      "[xEffect]",
+      "[xNeed]",
+      "[resp]",
+      "[str]",
+      "[aff]"
+    ],
+    "graph": [
+      "[xReact]",
+      "[xIntent]",
+      "[xWant]",
+      "[xEffect]",
+      "[xNeed]",
+      "[resp]",
+      "[str]",
+      "[aff]"
+    ]
+  },
+  "balancer_config": {
+    "weights": {
+      "masked_lm_loss": 1.0,
+      "strategy_loss": 0.55
+    },
+    "rescale_grads": true,
+    "total_norm": 1.0,
+    "ema_decay": 0.999
+  },
+  "st_config": {
+    "use_gate_budget": false,
+    "gate_budget": 0.5,
+    "loss_weight": 0.8,
+    "gate_dim": 48,
+    "skip_gate_prob": 0.0,
+    "activation_function": "gelu",
+    "use_balancer": true
+  }
+}

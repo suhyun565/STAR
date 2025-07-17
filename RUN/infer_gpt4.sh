@@ -1,0 +1,22 @@
+python infer_w_gpt_from_classification_mi.py \
+    --config_name star \
+    --inputter_name strat \
+    --data_name mi \
+    --knowledge_name none \
+    --custom_name GPT4-mi-zero \
+    --add_nlg_eval \
+    --seed 0 \
+    --load_checkpoint path-to-checkpoint \
+    --fp16 false \
+    --max_input_length 160 \
+    --max_decoder_input_length 40 \
+    --max_length 40 \
+    --min_length 10 \
+    --infer_batch_size 1 \
+    --infer_input_file ./_reformat/ \
+    --temperature 0.7 \
+    --top_p 0.3 \
+    --top_k 30 \
+    --repetition_penalty 1.03 \
+    --no_repeat_ngram_size 0 \
+    --gate_loss true \
