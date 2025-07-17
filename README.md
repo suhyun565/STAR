@@ -53,7 +53,7 @@ STAR introduces two core components:  
 
   
 
-Given a dialogue context, the decoder produces hidden states \( h \in \mathbb{R}^d \), and a predicted strategy token \( s \in \mathbb{N} \) is appended to guide generation.  
+Given a dialogue context, the decoder produces hidden states $\( h \in \mathbb{R}^d \)$, and a predicted strategy token $\( s \in \mathbb{N} \)$ is appended to guide generation.  
 
 These signals are processed as follows:
 
@@ -79,7 +79,7 @@ z = \text{Pooling}(h)
 
   
 
-The pooled vector \( z \) is passed through a two-layer feedforward network (with ReLU and Sigmoid activations) to compute a **gating value** \( g \in (0, 1) \):
+The pooled vector $\( z \)$ is passed through a two-layer feedforward network (with ReLU and Sigmoid activations) to compute a **gating value** $\( g \in (0, 1) \)$:
 
   
 
@@ -103,27 +103,22 @@ This gating mechanism determines how much strategic adjustment should be injecte
 
   
 
-The same vector $\( z \)$ is separately transformed via another two-layer feedforward network into a refined strategy representation \( \hat{h} \):
+The same vector $\( z \)$ is separately transformed via another two-layer feedforward network into a refined strategy representation $\( \hat{h} \)$:
 
   
 ```markdown
-\[
 
-\hat{h} = P(z)
+$\hat{h} = P(z)$
 
-\]
 ```
   
 
 The final hidden state used for response generation is then computed via a **gated fusion** of the strategy-aware and original decoder outputs:
 
   
-```markdown
-\[
+```
+$$(h' = g \odot \hat{h} + (1 - g) \odot h)$$
 
-h' = g \odot \hat{h} + (1 - g) \odot h
-
-\]
 ```
   
 
