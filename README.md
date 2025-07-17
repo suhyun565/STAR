@@ -144,5 +144,10 @@ bash RUN/infer_star.sh
 If the code or data is used in your research, please star this repo and cite our paper as follows:
 
 ```
-
+@inproceedings{Lee-2025-star,
+    title = "STAR: Strategy-Aware Refinement Module in Multitask Learning for Emotional Support Conversations",
+    author = "Suhyun Lee, Changheon Han, Woohwan Jung and Minsam Ko",
+    booktitle = "Proceedings of the Fourth Workshop on NLP for Positive Impact",
+    publisher = "Association for Computational Linguistics",
+}
 ```
